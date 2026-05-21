@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0d0d">
+  <title>Pivo · Тактика 7×7</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hdr">
+    <div class="hdr-title">Pivo · 2-3-1</div>
+    <div class="hdr-count" id="scenario-count"></div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="Категории сценариев"></nav>
+
+  <main class="pitch-wrap">
+    <svg id="pitch" viewBox="0 0 100 150" preserveAspectRatio="xMidYMid meet"
+         role="img" aria-label="Тактическая схема"></svg>
+    <div class="tooltip" id="tooltip" hidden></div>
+  </main>
+
+  <section class="caption" id="caption" aria-live="polite"></section>
+
+  <div class="controls" id="controls">
+    <button class="play-btn" id="play-btn" aria-label="Воспроизвести">▶</button>
+    <div class="scrubber" id="scrubber">
+      <div class="scrubber-track"><div class="scrubber-fill" id="scrubber-fill"></div></div>
+      <div class="scrubber-thumb" id="scrubber-thumb"></div>
+    </div>
+    <div class="time" id="time">0.0 / 0.0с</div>
+  </div>
+
+  <div class="layers" id="layers" aria-label="Слои"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

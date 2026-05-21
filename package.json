@@ -1,0 +1,9 @@
+{
+  "name": "football7",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "python3 -m http.server 8000"
+  }
+}

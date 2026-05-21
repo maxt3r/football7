@@ -1,0 +1,167 @@
+:root {
+  --bg: #0d0d0d;
+  --panel: #1a1a1a;
+  --panel-2: #2a2a2a;
+  --text: #f0f0f0;
+  --muted: #888;
+  --accent: #ff9a3c;
+  --accent-2: #ffd84d;
+  --pitch: #2d8a3e;
+  --pitch-line: #ffffff;
+  --gk: #5dff8a;
+  --jersey: #1a1a1a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12px 12px 24px;
+  min-height: 100vh;
+}
+
+.hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 4px 10px;
+}
+.hdr-title { font-weight: 700; font-size: 16px; }
+.hdr-count { color: var(--muted); font-size: 12px; }
+
+.chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 10px;
+  scrollbar-width: none;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  background: var(--panel-2);
+  color: #bbb;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+.pitch-wrap {
+  position: relative;
+  background: var(--pitch);
+  border-radius: 10px;
+  padding: 8px;
+  margin: 4px 0 8px;
+}
+#pitch {
+  width: 100%;
+  height: auto;
+  display: block;
+  touch-action: manipulation;
+}
+
+.caption {
+  background: var(--panel);
+  border-left: 3px solid var(--accent-2);
+  padding: 10px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 8px 0;
+  min-height: 38px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 2px;
+  margin-top: 4px;
+}
+.play-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+.scrubber { flex: 1; height: 18px; position: relative; touch-action: none; }
+.scrubber-track {
+  position: absolute; top: 7px; left: 0; right: 0; height: 4px;
+  background: var(--panel-2); border-radius: 2px; overflow: hidden;
+}
+.scrubber-fill { height: 100%; width: 0; background: var(--accent); }
+.scrubber-thumb {
+  position: absolute; top: 4px; left: 0; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--accent);
+  transform: translateX(-50%);
+}
+.time { color: var(--muted); font-size: 11px; min-width: 64px; text-align: right; }
+
+.layers {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.tooltip {
+  position: absolute;
+  background: #111;
+  border: 1px solid var(--accent-2);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  max-width: 220px;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.tooltip[hidden] { display: none; }
+.tooltip-name { font-weight: 700; color: var(--accent-2); margin-bottom: 4px; }
+
+/* SVG element styles */
+.player-circle { transition: transform 0.1s linear; }
+.player-label { font: 700 4px system-ui; fill: var(--text); text-anchor: middle; pointer-events: none; }
+.player-number-outfield { font: 700 5px system-ui; fill: var(--accent); text-anchor: middle; pointer-events: none; }
+.player-number-gk { font: 700 5px system-ui; fill: #000; text-anchor: middle; pointer-events: none; }
+.field-line { stroke: var(--pitch-line); stroke-width: 0.4; fill: none; }
+.trail { stroke: var(--accent-2); stroke-width: 0.4; fill: none; stroke-dasharray: 1.2 1; }
+.ball { fill: #fff; stroke: #000; stroke-width: 0.3; }
+.highlight-ring {
+  fill: none;
+  stroke: var(--accent-2);
+  stroke-width: 0.5;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { stroke-opacity: 1; r: 4.5; }
+  50% { stroke-opacity: 0.4; r: 5.5; }
+}
+.layer-path { stroke: var(--accent-2); stroke-width: 0.4; fill: none; opacity: 0.85; }
+.layer-path.lane { stroke-dasharray: 2 1; }
+.layer-path.trigger { stroke: #ff6b6b; }
+.layer-path.cover { stroke: #6bcfff; stroke-dasharray: 1 1; }
+.layer-label { font: 600 3px system-ui; fill: var(--accent-2); text-anchor: middle; }
