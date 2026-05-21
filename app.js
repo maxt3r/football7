@@ -1,4 +1,4 @@
-import { renderPitch, placePlayer, placeBall, clearPlayers, setHighlights } from './pitch.js';
+import { renderPitch, placePlayer, placeBall, clearPlayers, setHighlights, drawTrails } from './pitch.js';
 import { loadManifest, loadScenario } from './loader.js';
 import { createAnimator, resolvePositions, highlightedAt } from './animator.js';
 
@@ -60,6 +60,13 @@ async function selectScenario(id) {
     const pos = resolvePositions(state.scenario, e.t);
     renderState(pos);
     setHighlights(svg, highlightedAt(state.scenario, e.time));
+    const trails = Object.entries(state.scenario.initial.players).map(([id, from]) => ({
+      id, from, to: pos.players[id]
+    }));
+    // fade trails over the last 30 % of playback
+    const fadeStart = 0.7;
+    const opacity = e.t <= fadeStart ? 0.6 : 0.6 * (1 - (e.t - fadeStart) / (1 - fadeStart));
+    drawTrails(svg, trails, opacity);
     updateTime();
     updateScrubber();
     if (!state.animator.isPlaying()) updatePlayBtn();
@@ -68,6 +75,7 @@ async function selectScenario(id) {
     if (e.keyframe.note) captionEl.textContent = e.keyframe.note;
   });
   setHighlights(svg, highlightedAt(state.scenario, 0));
+  drawTrails(svg, [], 0);
   updateTime();
   updatePlayBtn();
   updateScrubber();

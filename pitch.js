@@ -131,3 +131,18 @@ export function setHighlights(svg, playerIds) {
     layer.appendChild(ring);
   }
 }
+
+// trailsData = [{ id, from: {x,y}, to: {x,y} }, ...]; opacity in [0,1]
+export function drawTrails(svg, trailsData, opacity) {
+  const layer = svg.querySelector('#g-trails');
+  while (layer.firstChild) layer.removeChild(layer.firstChild);
+  if (opacity <= 0) return;
+  layer.setAttribute('opacity', opacity);
+  for (const t of trailsData) {
+    const a = pitchToSvg(t.from);
+    const b = pitchToSvg(t.to);
+    layer.appendChild(el('line', {
+      x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: 'trail'
+    }));
+  }
+}
