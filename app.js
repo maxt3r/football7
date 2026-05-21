@@ -59,11 +59,45 @@ async function selectScenario(id) {
   state.animator.on('tick', (e) => {
     const pos = resolvePositions(state.scenario, e.t);
     renderState(pos);
+    updateTime();
+    if (!state.animator.isPlaying()) updatePlayBtn();
   });
   state.animator.on('keyframe', (e) => {
     if (e.keyframe.note) captionEl.textContent = e.keyframe.note;
   });
+  updateTime();
+  updatePlayBtn();
 }
+
+const playBtn = document.getElementById('play-btn');
+const timeEl = document.getElementById('time');
+
+function updatePlayBtn() {
+  if (!state.animator) return;
+  playBtn.textContent = state.animator.isPlaying() ? '⏸' : '▶';
+  playBtn.setAttribute('aria-label', state.animator.isPlaying() ? 'Пауза' : 'Воспроизвести');
+}
+
+function updateTime() {
+  if (!state.animator) return;
+  const cur = (state.animator.getTime() / 1000).toFixed(1);
+  const tot = (state.animator.duration() / 1000).toFixed(1);
+  timeEl.textContent = `${cur} / ${tot}с`;
+}
+
+playBtn.addEventListener('click', () => {
+  if (!state.animator) return;
+  if (state.animator.isPlaying()) state.animator.pause();
+  else state.animator.play();
+  updatePlayBtn();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && state.animator) {
+    e.preventDefault();
+    playBtn.click();
+  }
+});
 
 async function boot() {
   renderPitch(svg);
