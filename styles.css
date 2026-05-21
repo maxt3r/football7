@@ -50,6 +50,10 @@ body {
   scrollbar-width: none;
 }
 .chips::-webkit-scrollbar { display: none; }
+#chips {
+  flex-wrap: wrap;
+  overflow: visible;
+}
 .chip {
   background: var(--panel-2);
   color: var(--text-dim);
@@ -65,6 +69,23 @@ body {
   background: var(--accent);
   color: #000;
   font-weight: 600;
+}
+
+.scenario-info {
+  margin: 0 2px 8px;
+}
+.scenario-info h1 {
+  margin: 0 0 3px;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.scenario-info p {
+  margin: 0;
+  min-height: 18px;
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .pitch-wrap {

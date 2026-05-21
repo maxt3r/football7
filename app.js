@@ -12,6 +12,8 @@ const svg = document.getElementById('pitch');
 const chipsEl = document.getElementById('chips');
 const captionEl = document.getElementById('caption');
 const countEl = document.getElementById('scenario-count');
+const scenarioTitleEl = document.getElementById('scenario-title');
+const scenarioSubtitleEl = document.getElementById('scenario-subtitle');
 const tooltipEl = document.getElementById('tooltip');
 const pitchWrap = document.querySelector('.pitch-wrap');
 const layersEl = document.getElementById('layers');
@@ -115,7 +117,7 @@ function renderScenarioList() {
     const btn = document.createElement('button');
     btn.className = 'chip';
     btn.type = 'button';
-    btn.textContent = s.id.replace(/^[a-z]+-/, '').replace(/-/g, ' ');
+    btn.textContent = s.title ?? s.id.replace(/^[a-z]+-/, '').replace(/-/g, ' ');
     btn.setAttribute('aria-pressed', state.scenario?.id === s.id ? 'true' : 'false');
     btn.addEventListener('click', async () => {
       await selectScenario(s.id);
@@ -129,6 +131,8 @@ async function selectScenario(id) {
   hideTooltip();
   state.scenario = await loadScenario(id);
   state.animator = createAnimator(state.scenario);
+  scenarioTitleEl.textContent = state.scenario.title;
+  scenarioSubtitleEl.textContent = state.scenario.subtitle ?? '';
   clearPlayers(svg);
   activeLayers.clear();
   renderLayerChips();

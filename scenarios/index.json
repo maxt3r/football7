@@ -7,13 +7,21 @@
     { "id": "attack", "title": "Атака",     "emoji": "⚽" }
   ],
   "scenarios": [
-    { "id": "shape-low-block",      "file": "shape-low-block.json",      "category": "shape" },
-    { "id": "shape-ball-on-flank",  "file": "shape-ball-on-flank.json",  "category": "shape" },
-    { "id": "build-gk-short",       "file": "build-gk-short.json",       "category": "build" },
-    { "id": "build-break-press",    "file": "build-break-press.json",    "category": "build" },
-    { "id": "press-high-trigger",   "file": "press-high-trigger.json",   "category": "press" },
-    { "id": "press-mid-block",      "file": "press-mid-block.json",      "category": "press" },
-    { "id": "attack-overlap-right", "file": "attack-overlap-right.json", "category": "attack" },
-    { "id": "attack-switch-play",   "file": "attack-switch-play.json",   "category": "attack" }
+    { "id": "shape-low-block",          "file": "shape-low-block.json",          "category": "shape",  "title": "Низкий блок" },
+    { "id": "shape-ball-on-flank",      "file": "shape-ball-on-flank.json",      "category": "shape",  "title": "Мяч на фланге" },
+    { "id": "shape-rest-defense",       "file": "shape-rest-defense.json",       "category": "shape",  "title": "Рест-защита" },
+    { "id": "shape-stop-counter",       "file": "shape-stop-counter.json",       "category": "shape",  "title": "Срыв контратаки" },
+    { "id": "build-gk-short",           "file": "build-gk-short.json",           "category": "build",  "title": "От Егора коротко" },
+    { "id": "build-break-press",        "file": "build-break-press.json",        "category": "build",  "title": "Выйти из прессинга" },
+    { "id": "build-third-man",          "file": "build-third-man.json",          "category": "build",  "title": "Третий игрок" },
+    { "id": "build-ashot-marked",       "file": "build-ashot-marked.json",       "category": "build",  "title": "Ашот закрыт" },
+    { "id": "press-high-trigger",       "file": "press-high-trigger.json",       "category": "press",  "title": "Высокий триггер" },
+    { "id": "press-mid-block",          "file": "press-mid-block.json",          "category": "press",  "title": "Средний блок" },
+    { "id": "press-after-loss",         "file": "press-after-loss.json",         "category": "press",  "title": "5 секунд после потери" },
+    { "id": "press-touchline-trap",     "file": "press-touchline-trap.json",     "category": "press",  "title": "Ловушка у бровки" },
+    { "id": "attack-overlap-right",     "file": "attack-overlap-right.json",     "category": "attack", "title": "Оверлап справа" },
+    { "id": "attack-switch-play",       "file": "attack-switch-play.json",       "category": "attack", "title": "Смена фланга" },
+    { "id": "attack-cutback",           "file": "attack-cutback.json",           "category": "attack", "title": "Откат под удар" },
+    { "id": "attack-corner-short",      "file": "attack-corner-short.json",      "category": "attack", "title": "Короткий угловой" }
   ]
 }
