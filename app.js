@@ -95,9 +95,33 @@ function renderChips() {
 async function selectCategory(catId) {
   state.selectedCategory = catId;
   renderChips();
+  renderScenarioList();
   const inCat = state.manifest.scenarios.filter(s => s.category === catId);
-  if (inCat.length > 0) {
-    await selectScenario(inCat[0].id);
+  if (inCat.length > 0) await selectScenario(inCat[0].id);
+}
+
+function renderScenarioList() {
+  let list = document.getElementById('scenario-list');
+  if (!list) {
+    list = document.createElement('nav');
+    list.id = 'scenario-list';
+    list.className = 'chips';
+    list.setAttribute('aria-label', 'Сценарии в категории');
+    chipsEl.after(list);
+  }
+  list.innerHTML = '';
+  const inCat = state.manifest.scenarios.filter(s => s.category === state.selectedCategory);
+  for (const s of inCat) {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.type = 'button';
+    btn.textContent = s.id.replace(/^[a-z]+-/, '').replace(/-/g, ' ');
+    btn.setAttribute('aria-pressed', state.scenario?.id === s.id ? 'true' : 'false');
+    btn.addEventListener('click', async () => {
+      await selectScenario(s.id);
+      renderScenarioList(); // refresh aria-pressed
+    });
+    list.appendChild(btn);
   }
 }
 
