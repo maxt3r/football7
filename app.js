@@ -1,6 +1,6 @@
-import { renderPitch, placePlayer, placeBall, clearPlayers } from './pitch.js';
+import { renderPitch, placePlayer, placeBall, clearPlayers, setHighlights } from './pitch.js';
 import { loadManifest, loadScenario } from './loader.js';
-import { createAnimator, resolvePositions } from './animator.js';
+import { createAnimator, resolvePositions, highlightedAt } from './animator.js';
 
 const PLAYER_NAMES = {
   '1': 'Егор', '2': 'Леша', '3': 'Дима',
@@ -59,6 +59,7 @@ async function selectScenario(id) {
   state.animator.on('tick', (e) => {
     const pos = resolvePositions(state.scenario, e.t);
     renderState(pos);
+    setHighlights(svg, highlightedAt(state.scenario, e.time));
     updateTime();
     updateScrubber();
     if (!state.animator.isPlaying()) updatePlayBtn();
@@ -66,6 +67,7 @@ async function selectScenario(id) {
   state.animator.on('keyframe', (e) => {
     if (e.keyframe.note) captionEl.textContent = e.keyframe.note;
   });
+  setHighlights(svg, highlightedAt(state.scenario, 0));
   updateTime();
   updatePlayBtn();
   updateScrubber();

@@ -118,3 +118,16 @@ export function clearPlayers(svg) {
   const layer = svg.querySelector('#g-players');
   while (layer.firstChild) layer.removeChild(layer.firstChild);
 }
+
+export function setHighlights(svg, playerIds) {
+  const layer = svg.querySelector('#g-highlights');
+  while (layer.firstChild) layer.removeChild(layer.firstChild);
+  for (const id of playerIds) {
+    const player = svg.querySelector(`[data-player="${id}"] .player-circle`);
+    if (!player) continue;
+    const cx = player.getAttribute('cx');
+    const cy = player.getAttribute('cy');
+    const ring = el('circle', { cx, cy, r: 5, class: 'highlight-ring' });
+    layer.appendChild(ring);
+  }
+}

@@ -144,3 +144,21 @@ export function createAnimator(scenario) {
     _tickFor(deltaMs) { stepTo(timeMs + deltaMs); }
   };
 }
+
+// Returns the set of player IDs that should be highlighted at the given time.
+// A player is highlighted if any keyframe within HIGHLIGHT_WINDOW_MS of `timeMs`
+// has `highlight: true` for that player.
+export const HIGHLIGHT_WINDOW_MS = 250;
+
+export function highlightedAt(scenario, timeMs) {
+  const out = new Set();
+  for (const kf of scenario.keyframes) {
+    const kfMs = kf.t * scenario.duration_ms;
+    if (Math.abs(kfMs - timeMs) <= HIGHLIGHT_WINDOW_MS && kf.players) {
+      for (const [id, p] of Object.entries(kf.players)) {
+        if (p.highlight) out.add(id);
+      }
+    }
+  }
+  return out;
+}
