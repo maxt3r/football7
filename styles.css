@@ -10,6 +10,8 @@
   --pitch-line: #ffffff;
   --gk: #5dff8a;
   --jersey: #1a1a1a;
+  --text-dim: #bbbbbb;
+  --tooltip-bg: #111111;
 }
 
 * { box-sizing: border-box; }
@@ -50,7 +52,7 @@ body {
 .chips::-webkit-scrollbar { display: none; }
 .chip {
   background: var(--panel-2);
-  color: #bbb;
+  color: var(--text-dim);
   padding: 6px 12px;
   border-radius: 14px;
   font-size: 12px;
@@ -128,7 +130,7 @@ body {
 
 .tooltip {
   position: absolute;
-  background: #111;
+  background: var(--tooltip-bg);
   border: 1px solid var(--accent-2);
   border-radius: 6px;
   padding: 8px 10px;
