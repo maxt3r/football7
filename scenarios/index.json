@@ -1,0 +1,12 @@
+{
+  "formation": { "name": "2-3-1", "team": "Pivo" },
+  "categories": [
+    { "id": "shape",  "title": "Оборона",   "emoji": "🛡" },
+    { "id": "build",  "title": "Розыгрыш",  "emoji": "🟢" },
+    { "id": "press",  "title": "Прессинг",  "emoji": "🔥" },
+    { "id": "attack", "title": "Атака",     "emoji": "⚽" }
+  ],
+  "scenarios": [
+    { "id": "_demo", "file": "_demo.json", "category": "shape" }
+  ]
+}
