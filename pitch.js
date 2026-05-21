@@ -62,3 +62,59 @@ export function renderPitch(svg) {
     svg.appendChild(el('g', { id: `g-${id}` }));
   });
 }
+
+const PLAYER_RADIUS = 4;
+
+export function placePlayer(svg, id, x, y, opts = {}) {
+  const layer = svg.querySelector('#g-players');
+  const existing = layer.querySelector(`[data-player="${id}"]`);
+  const p = pitchToSvg({ x, y });
+
+  if (existing) {
+    existing.querySelector('.player-circle').setAttribute('cx', p.x);
+    existing.querySelector('.player-circle').setAttribute('cy', p.y);
+    const num = existing.querySelector('text.player-number-outfield, text.player-number-gk');
+    num.setAttribute('x', p.x); num.setAttribute('y', p.y + 1.8);
+    const lbl = existing.querySelector('.player-label');
+    lbl.setAttribute('x', p.x); lbl.setAttribute('y', p.y + 8);
+    return existing;
+  }
+
+  const isGK = opts.isGK ?? id === '1';
+  const g = el('g', { 'data-player': id, class: 'player' });
+  g.appendChild(el('circle', {
+    cx: p.x, cy: p.y, r: PLAYER_RADIUS,
+    fill: isGK ? '#5dff8a' : '#1a1a1a',
+    stroke: '#fff', 'stroke-width': 0.6,
+    class: 'player-circle'
+  }));
+  g.appendChild(el('text', {
+    x: p.x, y: p.y + 1.8,
+    class: isGK ? 'player-number-gk' : 'player-number-outfield'
+  })).textContent = id;
+  g.appendChild(el('text', {
+    x: p.x, y: p.y + 8,
+    class: 'player-label'
+  })).textContent = opts.name ?? '';
+
+  layer.appendChild(g);
+  return g;
+}
+
+export function placeBall(svg, x, y) {
+  const layer = svg.querySelector('#g-ball');
+  let ball = layer.querySelector('.ball');
+  const p = pitchToSvg({ x, y });
+  if (!ball) {
+    ball = el('circle', { r: 1.6, class: 'ball' });
+    layer.appendChild(ball);
+  }
+  ball.setAttribute('cx', p.x);
+  ball.setAttribute('cy', p.y);
+  return ball;
+}
+
+export function clearPlayers(svg) {
+  const layer = svg.querySelector('#g-players');
+  while (layer.firstChild) layer.removeChild(layer.firstChild);
+}
