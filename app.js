@@ -60,6 +60,7 @@ async function selectScenario(id) {
     const pos = resolvePositions(state.scenario, e.t);
     renderState(pos);
     updateTime();
+    updateScrubber();
     if (!state.animator.isPlaying()) updatePlayBtn();
   });
   state.animator.on('keyframe', (e) => {
@@ -67,7 +68,42 @@ async function selectScenario(id) {
   });
   updateTime();
   updatePlayBtn();
+  updateScrubber();
 }
+
+const scrubber = document.getElementById('scrubber');
+const scrubberFill = document.getElementById('scrubber-fill');
+const scrubberThumb = document.getElementById('scrubber-thumb');
+
+function updateScrubber() {
+  if (!state.animator) return;
+  const frac = state.animator.getTime() / state.animator.duration();
+  const pct = (frac * 100).toFixed(2) + '%';
+  scrubberFill.style.width = pct;
+  scrubberThumb.style.left = pct;
+}
+
+function seekFromPointer(clientX) {
+  if (!state.animator) return;
+  const rect = scrubber.getBoundingClientRect();
+  const frac = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+  state.animator.seek(frac * state.animator.duration());
+  updatePlayBtn();
+}
+
+let dragging = false;
+scrubber.addEventListener('pointerdown', (e) => {
+  dragging = true;
+  scrubber.setPointerCapture(e.pointerId);
+  seekFromPointer(e.clientX);
+});
+scrubber.addEventListener('pointermove', (e) => {
+  if (dragging) seekFromPointer(e.clientX);
+});
+scrubber.addEventListener('pointerup', (e) => {
+  dragging = false;
+  scrubber.releasePointerCapture(e.pointerId);
+});
 
 const playBtn = document.getElementById('play-btn');
 const timeEl = document.getElementById('time');
