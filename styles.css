@@ -145,6 +145,7 @@ body {
 .tooltip-name { font-weight: 700; color: var(--accent-2); margin-bottom: 4px; }
 
 /* SVG element styles */
+.player { cursor: pointer; }
 .player-circle { transition: transform 0.1s linear; }
 .player-label { font: 700 4px system-ui; fill: var(--text); text-anchor: middle; pointer-events: none; }
 .player-number-outfield { font: 700 5px system-ui; fill: var(--accent); text-anchor: middle; pointer-events: none; }

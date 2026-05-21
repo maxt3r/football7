@@ -12,6 +12,29 @@ const svg = document.getElementById('pitch');
 const chipsEl = document.getElementById('chips');
 const captionEl = document.getElementById('caption');
 const countEl = document.getElementById('scenario-count');
+const tooltipEl = document.getElementById('tooltip');
+const pitchWrap = document.querySelector('.pitch-wrap');
+
+function hideTooltip() {
+  tooltipEl.hidden = true;
+  tooltipEl.dataset.player = '';
+}
+
+function showTooltip(playerId, clientX, clientY) {
+  if (!state.scenario) return;
+  const role = state.scenario.roles?.[playerId];
+  tooltipEl.innerHTML = `
+    <div class="tooltip-name">${PLAYER_NAMES[playerId]} · ${playerId}</div>
+    <div>${role ?? 'Нет особой роли в этом сценарии'}</div>
+  `;
+  tooltipEl.hidden = false;
+  tooltipEl.dataset.player = playerId;
+  const wrapRect = pitchWrap.getBoundingClientRect();
+  const x = clientX - wrapRect.left + 12;
+  const y = clientY - wrapRect.top + 12;
+  tooltipEl.style.left = `${x}px`;
+  tooltipEl.style.top = `${y}px`;
+}
 
 const state = {
   manifest: null,
@@ -50,6 +73,7 @@ async function selectCategory(catId) {
 }
 
 async function selectScenario(id) {
+  hideTooltip();
   state.scenario = await loadScenario(id);
   state.animator = createAnimator(state.scenario);
   clearPlayers(svg);
@@ -143,6 +167,25 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     playBtn.click();
   }
+});
+
+svg.addEventListener('click', (e) => {
+  const playerGroup = e.target.closest('[data-player]');
+  if (playerGroup) {
+    const id = playerGroup.dataset.player;
+    if (tooltipEl.dataset.player === id) {
+      hideTooltip();
+    } else {
+      showTooltip(id, e.clientX, e.clientY);
+    }
+  } else {
+    hideTooltip();
+  }
+});
+
+document.addEventListener('click', (e) => {
+  // close tooltip when tapping outside the pitch entirely
+  if (!pitchWrap.contains(e.target)) hideTooltip();
 });
 
 async function boot() {
