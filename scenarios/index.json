@@ -7,6 +7,13 @@
     { "id": "attack", "title": "Атака",     "emoji": "⚽" }
   ],
   "scenarios": [
-    { "id": "_demo", "file": "_demo.json", "category": "shape" }
+    { "id": "shape-low-block",      "file": "shape-low-block.json",      "category": "shape" },
+    { "id": "shape-ball-on-flank",  "file": "shape-ball-on-flank.json",  "category": "shape" },
+    { "id": "build-gk-short",       "file": "build-gk-short.json",       "category": "build" },
+    { "id": "build-break-press",    "file": "build-break-press.json",    "category": "build" },
+    { "id": "press-high-trigger",   "file": "press-high-trigger.json",   "category": "press" },
+    { "id": "press-mid-block",      "file": "press-mid-block.json",      "category": "press" },
+    { "id": "attack-overlap-right", "file": "attack-overlap-right.json", "category": "attack" },
+    { "id": "attack-switch-play",   "file": "attack-switch-play.json",   "category": "attack" }
   ]
 }
