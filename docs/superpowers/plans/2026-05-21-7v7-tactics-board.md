@@ -18,6 +18,17 @@
 
 ---
 
+## v1 Execution Notes (user decisions, 2026-05-21)
+
+**Skip all test steps.** For every task, skip any step that creates a `tests/*.js` file, runs `npm test`, or references TDD/red-green-refactor. Implement functions directly; rely on manual browser verification.
+- Specifically: skip Task 1 step 2/3 (smoke test creation + run), skip Task 2 steps 1/2/4 (coord-conversion test), skip Task 4 steps 1/2/4 (interpolation tests), skip Task 5 steps 1/2/4 (animator runtime tests), skip Task 6 steps 3/4/6 (loader tests), skip Task 10 step 3 (`highlightedAt` test).
+- Drop the `tests/` directory entirely. Drop the `"test"` script from `package.json` (keep `serve`).
+- Functions/exports/signatures are still defined exactly as the implementation steps show — you're just not asserting them with tests.
+
+**Skip Task 24 (GitHub Pages deployment) entirely.** End at Task 23 (mobile polish). The site runs locally via `python3 -m http.server 8000`.
+
+---
+
 ## File Structure
 
 Runtime (served to browser):
