@@ -32,7 +32,17 @@
       }
     }
   ],
-  "layers": {},
+  "layers": {
+    "press_triggers": [
+      { "from": "7", "to_ball": true, "label": "Триггер" }
+    ],
+    "lanes": [
+      { "from": "5", "to": "7" }
+    ],
+    "covering": [
+      { "from": "2", "to": "3" }
+    ]
+  },
   "roles": {
     "7": "Демо роль — двигайся по сигналу"
   }

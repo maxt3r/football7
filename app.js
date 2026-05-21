@@ -1,4 +1,4 @@
-import { renderPitch, placePlayer, placeBall, clearPlayers, setHighlights, drawTrails } from './pitch.js';
+import { renderPitch, placePlayer, placeBall, clearPlayers, setHighlights, drawTrails, drawLayers } from './pitch.js';
 import { loadManifest, loadScenario } from './loader.js';
 import { createAnimator, resolvePositions, highlightedAt } from './animator.js';
 
@@ -14,6 +14,35 @@ const captionEl = document.getElementById('caption');
 const countEl = document.getElementById('scenario-count');
 const tooltipEl = document.getElementById('tooltip');
 const pitchWrap = document.querySelector('.pitch-wrap');
+const layersEl = document.getElementById('layers');
+const LAYER_LABELS = {
+  press_triggers: 'Триггеры прессинга',
+  lanes: 'Линии паса',
+  covering: 'Опека'
+};
+const activeLayers = new Set();
+
+function renderLayerChips() {
+  layersEl.innerHTML = '';
+  if (!state.scenario?.layers) return;
+  for (const type of Object.keys(state.scenario.layers)) {
+    const label = LAYER_LABELS[type] ?? type;
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.setAttribute('aria-pressed', activeLayers.has(type) ? 'true' : 'false');
+    btn.addEventListener('click', () => {
+      if (activeLayers.has(type)) activeLayers.delete(type);
+      else activeLayers.add(type);
+      btn.setAttribute('aria-pressed', activeLayers.has(type) ? 'true' : 'false');
+      // immediately repaint layers using current positions
+      const pos = resolvePositions(state.scenario, state.animator.getTime() / state.animator.duration());
+      drawLayers(svg, state.scenario.layers, activeLayers, pos);
+    });
+    layersEl.appendChild(btn);
+  }
+}
 
 function hideTooltip() {
   tooltipEl.hidden = true;
@@ -77,6 +106,8 @@ async function selectScenario(id) {
   state.scenario = await loadScenario(id);
   state.animator = createAnimator(state.scenario);
   clearPlayers(svg);
+  activeLayers.clear();
+  renderLayerChips();
   const positions = resolvePositions(state.scenario, 0);
   renderState(positions);
   captionEl.textContent = state.scenario.keyframes[0].note ?? state.scenario.title;
@@ -91,6 +122,7 @@ async function selectScenario(id) {
     const fadeStart = 0.7;
     const opacity = e.t <= fadeStart ? 0.6 : 0.6 * (1 - (e.t - fadeStart) / (1 - fadeStart));
     drawTrails(svg, trails, opacity);
+    drawLayers(svg, state.scenario.layers, activeLayers, pos);
     updateTime();
     updateScrubber();
     if (!state.animator.isPlaying()) updatePlayBtn();

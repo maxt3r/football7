@@ -146,3 +146,50 @@ export function drawTrails(svg, trailsData, opacity) {
     }));
   }
 }
+
+// activeLayers: Set of layer-type strings, e.g. new Set(['press_triggers'])
+// layers: scenario.layers map
+// positions: current resolved positions { ball, players }
+export function drawLayers(svg, layers, activeLayers, positions) {
+  const layer = svg.querySelector('#g-layers');
+  while (layer.firstChild) layer.removeChild(layer.firstChild);
+  if (!layers) return;
+
+  for (const layerType of activeLayers) {
+    const items = layers[layerType];
+    if (!Array.isArray(items)) continue;
+    for (const item of items) {
+      renderLayerItem(layer, layerType, item, positions);
+    }
+  }
+}
+
+function renderLayerItem(parent, type, item, positions) {
+  const fromPos = item.from != null ? positions.players[String(item.from)] : null;
+  const toPos = item.to != null ? positions.players[String(item.to)]
+              : item.to_ball ? positions.ball
+              : null;
+  if (!fromPos || !toPos) return;
+
+  const a = pitchToSvg(fromPos);
+  const b = pitchToSvg(toPos);
+
+  // class per layer type drives color/dash
+  const cls = type === 'press_triggers' ? 'layer-path trigger'
+            : type === 'lanes' ? 'layer-path lane'
+            : type === 'covering' ? 'layer-path cover'
+            : 'layer-path';
+
+  const path = el('line', {
+    x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: cls
+  });
+  parent.appendChild(path);
+
+  if (item.label) {
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2 - 2;
+    const txt = el('text', { x: mx, y: my, class: 'layer-label' });
+    txt.textContent = item.label;
+    parent.appendChild(txt);
+  }
+}
